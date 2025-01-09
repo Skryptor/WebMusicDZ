@@ -1,0 +1,55 @@
+create table if not exists Genres(
+			Genresid SERIAL PRIMARY KEY,
+			name VARCHAR(60) not NULL
+);
+
+
+create table if not EXISTS Artists(
+			Artistid SERIAL PRIMARY KEY,
+			name VARCHAR(60) not null		
+);
+
+CREATE TABLE IF NOT EXISTS GenresArtists (
+    		Artistid INT NOT NULL,
+    		Genresid INT NOT NULL,
+    		PRIMARY KEY (Artistid, Genresid),
+    		FOREIGN KEY (Artistid) REFERENCES Artists(Artistid),
+    		FOREIGN KEY (Genresid) REFERENCES Genres(Genresid)
+);
+    		
+    		
+create table if not exists ALBUMS(
+			Albumsid SERIAL primary key,
+			title VARCHAR(60) not null,
+			Artistid INT NOT NULL REFERENCES Artists(Artistid),
+			year int not null
+);
+			
+CREATE TABLE IF NOT EXISTS ArtistsAlbums (
+    		Artistid INT NOT NULL,
+    		Albumsid INT NOT NULL,
+    		PRIMARY KEY (Artistid, Albumsid),
+    		FOREIGN KEY (Artistid) REFERENCES Artists(Artistid),
+    		FOREIGN KEY (Albumsid) REFERENCES ALBUMS(Albumsid)
+);
+
+create table if not exists Track (
+			Trackid SERIAL primary key,
+			name VARCHAR(60) not NULL,
+			Albumsid INT NOT NULL REFERENCES Albums(Albumsid),
+			duration int not null
+);
+
+create TABLE if not exists CompilationTrack(
+			Compilationid int not null,
+			Trackid int not null,
+			primary key (Compilationid,Trackid),
+			FOREIGN KEY (Compilationid) REFERENCES Compilation(Compilationid),
+    		FOREIGN KEY (Trackid) REFERENCES Track(Trackid)
+);
+
+create table if not exists Compilation(
+			Compilationid SERIAL PRIMARY KEY,
+			name VARCHAR(60) not null,
+			year int not null
+);
