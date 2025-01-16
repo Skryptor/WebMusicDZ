@@ -1,0 +1,60 @@
+--Quwest 1.1 Insert into
+
+insert into artists (nickname)
+values ('djSemga'), ('Dmitriy'), ('djdenis'), ('sosMax'),('mydogman');
+
+insert into Genres (name)
+values ('REP SEDIMENT'),
+	('POP_SA SHIT'),
+	('PANKI HOY');
+
+insert into Albums (name,year)
+values ('Bandit Life', 1970),
+    ('Pink Glasses', 1950),
+    ('Relly Man', 1947),
+    ('SpecialsDZ',2020);
+
+insert into Track (title,duration,albumsid)
+values ('Gangsta paradis', 187, 1),
+    ('Cart many two_guns', 181, 1),
+    ('Ostrov', 143, 2),
+    ('Sansara', 192, 2),
+    ('Rock on the head', 154, 3),
+    ('Forester', 203, 3),
+	('MegaDuration', 470, 4),
+	('Minduration', 30, 4);
+
+insert into compilation (title, year )
+values ('Gangsta Life', 2007),
+    ('Life Right Now', 2010),
+    ('Pink Ass', 2022),
+    ('Black Ass', 2024),
+	('Qwest4', 2020);
+
+insert into artistsgenres(artistsid,genresid)
+values (1,1),
+	(2,3),
+	(3,2),
+	(4,1),
+	(5,2);
+
+insert into albumsartists(albumsid,artistsid)
+values (1,1),
+	(2,3),
+	(3,2),
+	(4,5),
+	(1,4);
+
+insert into compilationtrack(compilationid,trackid)
+values (1,1),
+	(1,2),
+	(2,3),
+	(2,4),
+	(3,5),
+	(4,6),
+	(5,7),
+	(5,8);
+
+insert into artistsgenres(artistsid,genresid)
+values (2,1);
+

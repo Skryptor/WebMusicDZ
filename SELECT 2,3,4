@@ -1,0 +1,95 @@
+--Qwest 2.0
+
+--ИСПРАВЛЕННЫЙ
+select title, duration
+from Track
+where duration = (select MAX(duration) from Track);
+
+
+select title from Track
+where duration > 210
+
+select title from compilation
+where year between 2018 and 2021;
+
+select nickname from artists
+where nickname not LIKE '% %' ;
+
+select title from Track
+where title LIKE '%my%' ;
+
+--Qwest 3.0
+
+select count(artistsid), genresid from artistsgenres
+group by genresid;
+
+select count(a.year), a.name  from Albums a
+left join Track t on t.albumsid = a.albumsid
+where year between 2019 and 2021
+group by a.name;
+
+select a.name, avg(t.duration)  from Albums a
+left join Track t on t.albumsid = a.albumsid
+group by a.name;
+
+--ИСПРАВОЕННЫЙ
+
+select ar.nickname
+from Artists ar
+where ar.artistsid NOT IN (
+    select aa.artistsid
+    from Albums a
+    join AlbumsArtists aa ON a.albumsid = aa.albumsid
+    where a.year = 2020
+);
+
+
+select c.title from artists a
+left join albumsartists aa on a.artistsid = aa.artistsid
+left join albums al on al.albumsid = aa.albumsid
+left join track t on t.albumsid = al.albumsid
+left join compilationtrack ct on ct.trackid = t.trackid
+left join compilation c on c.compilationid = ct.compilationid
+where a.nickname = 'Dmitriy';
+
+--Qwest 4.0
+
+select al.name from albums al
+left join albumsartists aa on al.albumsid = aa.albumsid
+left join artists a on aa.artistsid = a.artistsid
+left join artistsgenres ag on a.artistsid = ag.artistsid
+left join Genres g on g.genresid = ag.genresid
+group by al.name
+having count(aa.albumsid) > 1;
+
+
+select t.title from Track t
+left join compilationtrack ct on ct.trackid = t.trackid
+left join compilation c on c.compilationid = ct.compilationid
+group by t.title
+having count(ct.trackid) < 1
+
+select a.nickname from artists a
+left join albumsartists aa on a.artistsid = aa.artistsid
+left join albums al on al.albumsid = aa.albumsid
+left join track t on t.albumsid = al.albumsid
+left join compilationtrack ct on ct.trackid = t.trackid
+--where t.duration = (select min(duration) from Track) если вдруг не правильно понял задание. в таком случае надо убрать ордер бай
+group by a.nickname
+order by min(duration)
+
+--ИСПРАВОЕННЫЙ
+
+SELECT a.name
+FROM Albums a
+LEFT JOIN Track t ON t.albumsid = a.albumsid
+GROUP BY a.name
+HAVING COUNT(t.trackid) = (
+    SELECT MIN(track_count)
+    FROM (
+        SELECT COUNT(t.trackid) AS track_count
+        FROM Albums a
+        LEFT JOIN Track t ON t.albumsid = a.albumsid
+        GROUP BY a.albumsid
+    ) AS AlbumTrackCounts
+);
